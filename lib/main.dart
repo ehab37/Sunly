@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_transitions/go_transitions.dart';
 import 'core/utils/app_router.dart';
 
-void main() {
+void main() async {
+  // Load the .env file
+  await dotenv.load(fileName: ".env");
   runApp(const Sunly());
 }
 
