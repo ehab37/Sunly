@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:sunly/constants.dart';
 import 'package:sunly/core/services/cache_helper.dart';
 import 'package:sunly/core/utils/info_box.dart';
@@ -67,11 +66,10 @@ class HomeView extends StatelessWidget {
           builder: (context, state) {
             if (state is GetWeatherSuccess) {
               return HomeViewBody(weather: state.weather);
-            } else {
-              return ModalProgressHUD(
-                inAsyncCall: state is GetWeatherLoading ? true : false,
-                child: const SearchView(),
-              );
+            } else if (state is GetWeatherLoading){
+              return const Center(child: CircularProgressIndicator());
+            }else {
+              return const SearchView();
             }
           },
         ),

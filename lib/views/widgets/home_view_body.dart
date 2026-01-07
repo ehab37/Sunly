@@ -23,102 +23,115 @@ class HomeViewBody extends StatelessWidget {
         final maxTemp = isCelsius ? weather.maxTempC : weather.maxTempF;
         final minTemp = isCelsius ? weather.minTempC : weather.minTempF;
         final unit = isCelsius ? '°C' : '°F';
-
-        return Padding(
-          padding: const EdgeInsets.all(kHorizontalPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        return RefreshIndicator(
+          onRefresh: () async {
+            BlocProvider.of<GetWeatherCubit>(
+              context,
+            ).getCurrentWeather(cityName: weather.cityName);
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(kHorizontalPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      context.read<GetWeatherCubit>().resetCubit();
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          context.read<GetWeatherCubit>().resetCubit();
+                        },
+                        icon: const Icon(Icons.location_on),
+                      ),
+                      Text(
+                        weather.cityName,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Updated at $updatedAt',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.network(
+                        "https:${weather.conditionIconUrl}",
+                        height: 64,
+                        width: 64,
+                      ),
+                      const SizedBox(width: 16),
+                      Text(
+                        '${temp.round()}$unit',
+                        style: Theme.of(context).textTheme.displayLarge,
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    weather.conditionName,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Feels like: ${isCelsius ? weather.feelsLikeC.round() : weather.feelsLikeF.round()}$unit',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 32),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      buildWeatherInfo(
+                        context,
+                        'Max Temp',
+                        '${maxTemp.round()}$unit',
+                      ),
+                      buildWeatherInfo(
+                        context,
+                        'Min Temp',
+                        '${minTemp.round()}$unit',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      buildWeatherInfo(
+                        context,
+                        'Wind Speed',
+                        '${weather.windSpeed.round()} km/h',
+                      ),
+                      buildWeatherInfo(
+                        context,
+                        'Humidity',
+                        '${weather.humidity}%',
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    '5-Day Forecast',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 16),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: weather.dailyForecasts.length,
+                    itemBuilder: (context, index) {
+                      final forecast = weather.dailyForecasts[index];
+                      return buildForecastItem(context, forecast, isCelsius);
                     },
-                    icon: const Icon(Icons.location_on),
-                  ),
-                  Text(
-                    weather.cityName,
-                    style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              Text(
-                'Updated at $updatedAt',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.network(
-                    "https:${weather.conditionIconUrl}",
-                    height: 64,
-                    width: 64,
-                  ),
-                  const SizedBox(width: 16),
-                  Text(
-                    '${temp.round()}$unit',
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                weather.conditionName,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Feels like: ${isCelsius ? weather.feelsLikeC.round() : weather.feelsLikeF.round()}$unit',
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-              const SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildWeatherInfo(
-                    context,
-                    'Max Temp',
-                    '${maxTemp.round()}$unit',
-                  ),
-                  buildWeatherInfo(
-                    context,
-                    'Min Temp',
-                    '${minTemp.round()}$unit',
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  buildWeatherInfo(
-                    context,
-                    'Wind Speed',
-                    '${weather.windSpeed.round()} km/h',
-                  ),
-                  buildWeatherInfo(context, 'Humidity', '${weather.humidity}%'),
-                ],
-              ),
-              const SizedBox(height: 32),
-              Text(
-                '5-Day Forecast',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: weather.dailyForecasts.length,
-                  itemBuilder: (context, index) {
-                    final forecast = weather.dailyForecasts[index];
-                    return buildForecastItem(context, forecast, isCelsius);
-                  },
-                ),
-              ),
-            ],
+            ),
           ),
         );
       },
