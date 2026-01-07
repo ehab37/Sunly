@@ -9,7 +9,7 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(kHorizontalPadding),
+      padding: const EdgeInsets.all(kHorizontalPadding),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -19,28 +19,22 @@ class SearchView extends StatelessWidget {
             style: TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 24),
-          BlocListener<GetWeatherCubit, GetWeatherState>(
-            listener: (context, state) {
-              if (state is GetWeatherFailure) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+          TextField(
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                context.read<GetWeatherCubit>().getCurrentWeather(
+                  cityName: value,
+                );
               }
             },
-            child: TextField(
-              onSubmitted: (value) {
-                if (value.isNotEmpty) {
-                  context.read<GetWeatherCubit>().getCurrentWeather(
-                    cityName: value,
-                  );
-                }
-              },
-              decoration: InputDecoration(
-                hintText: 'Enter city name',
-                suffixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+             keyboardType: TextInputType.text,
+            textCapitalization: TextCapitalization.words,
+            decoration: InputDecoration(
+              labelText: 'City Name',
+              hintText: 'Enter city name',
+              suffixIcon: const Icon(Icons.search),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
             ),
           ),

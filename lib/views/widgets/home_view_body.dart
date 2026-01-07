@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:sunly/constants.dart';
 import 'package:sunly/core/models/weather_model.dart';
+import 'package:sunly/cubits/get_weather/get_weather_cubit.dart';
 import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
 import 'package:sunly/widgets/build_forrest_item.dart';
 import 'package:sunly/widgets/build_weather_info.dart';
@@ -23,13 +25,24 @@ class HomeViewBody extends StatelessWidget {
         final unit = isCelsius ? '°C' : '°F';
 
         return Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(kHorizontalPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                weather.cityName,
-                style: Theme.of(context).textTheme.headlineMedium,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      context.read<GetWeatherCubit>().resetCubit();
+                    },
+                    icon: const Icon(Icons.location_on),
+                  ),
+                  Text(
+                    weather.cityName,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
               ),
               const SizedBox(height: 8),
               Text(

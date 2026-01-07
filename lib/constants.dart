@@ -6,6 +6,7 @@ class ApiKeys {
   static const String baseUrl = "http://api.weatherapi.com/v1";
 }
 
+const kCityNameCached = "cityNameCached";
 const double kHorizontalPadding = 24;
 const double kTopPadding = 16;
 const double kBottomPadding = 30;

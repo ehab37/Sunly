@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sunly/constants.dart';
+import 'package:sunly/core/services/cache_helper.dart';
 import 'package:sunly/core/utils/app_router.dart';
 import 'package:sunly/core/utils/assets.dart';
+import 'package:sunly/cubits/get_weather/get_weather_cubit.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -16,9 +20,10 @@ class _SplashViewBodyState extends State<SplashViewBody>
   late Animation<double> animation;
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     initFadingAnimation();
+     checkLastCity();
     navigateHome();
   }
 
@@ -41,6 +46,15 @@ class _SplashViewBodyState extends State<SplashViewBody>
         ),
       ),
     );
+  }
+
+  checkLastCity() {
+    String? cityNameCached = CacheHelper.getData(key: kCityNameCached);
+    if (cityNameCached != null) {
+       context.read<GetWeatherCubit>().getCurrentWeather(
+        cityName: cityNameCached,
+      );
+    }
   }
 
   void initFadingAnimation() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sunly/core/models/weather_model.dart';
 import 'package:sunly/core/services/weather_service.dart';
 
@@ -15,9 +16,15 @@ class GetWeatherCubit extends Cubit<GetWeatherState> {
       final weather = await weatherService.getCurrentWeather(
         cityName: cityName,
       );
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('lastCity', cityName);
       emit(GetWeatherSuccess(weather: weather));
     } on Exception catch (e) {
       emit(GetWeatherFailure(errorMessage: e.toString()));
     }
+  }
+
+  void resetCubit() {
+    emit(GetWeatherInitial());
   }
 }
