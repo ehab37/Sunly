@@ -11,7 +11,7 @@ class WeatherService {
   Future<WeatherModel> getCurrentWeather({required String cityName}) async {
     try {
       final response = await dio.get(
-        "${ApiKeys.baseUrl}/forecast.json?key=${ApiKeys.apiKey}&q=$cityName&days=1",
+        "${ApiKeys.baseUrl}/forecast.json?key=${ApiKeys.apiKey}&q=$cityName&days=5",
       );
       return WeatherModel.fromJson(response.data);
     } on DioException catch (e) {

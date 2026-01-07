@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:sunly/core/models/weather_model.dart';
 import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
+import 'package:sunly/widgets/build_forrest_item.dart';
 import 'package:sunly/widgets/build_weather_info.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -88,6 +89,21 @@ class HomeViewBody extends StatelessWidget {
                   ),
                   buildWeatherInfo(context, 'Humidity', '${weather.humidity}%'),
                 ],
+              ),
+              const SizedBox(height: 32),
+              Text(
+                '5-Day Forecast',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: weather.dailyForecasts.length,
+                  itemBuilder: (context, index) {
+                    final forecast = weather.dailyForecasts[index];
+                    return buildForecastItem(context, forecast, isCelsius);
+                  },
+                ),
               ),
             ],
           ),

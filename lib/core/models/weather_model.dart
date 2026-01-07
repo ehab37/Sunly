@@ -1,3 +1,5 @@
+import 'package:sunly/core/models/daily_forecast_model.dart';
+
 class WeatherModel {
   final String cityName;
   final String date;
@@ -13,8 +15,7 @@ class WeatherModel {
   final double minTempF;
   final double maxTempC;
   final double maxTempF;
-
-  // final String day;
+  final List<DailyForecast> dailyForecasts;
 
   WeatherModel({
     required this.cityName,
@@ -31,6 +32,7 @@ class WeatherModel {
     required this.minTempF,
     required this.maxTempC,
     required this.maxTempF,
+    required this.dailyForecasts,
   });
 
   factory WeatherModel.fromJson(Map<String, dynamic> json) {
@@ -49,6 +51,9 @@ class WeatherModel {
       minTempF: json['forecast']['forecastday'][0]['day']['mintemp_f'],
       maxTempC: json['forecast']['forecastday'][0]['day']['maxtemp_c'],
       maxTempF: json['forecast']['forecastday'][0]['day']['maxtemp_f'],
+      dailyForecasts: (json['forecast']['forecastday'] as List)
+          .map((day) => DailyForecast.fromJson(day))
+          .toList(),
     );
   }
 }
