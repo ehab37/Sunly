@@ -83,7 +83,7 @@ class MockWeatherService extends _i1.Mock implements _i4.WeatherService {
           as _i2.Dio);
 
   @override
-  _i5.Future<_i3.WeatherModel> getCurrentWeather({required String? cityName}) =>
+  _i5.Future<_i3.WeatherModel> getWeather({required String? cityName}) =>
       (super.noSuchMethod(
             Invocation.method(#getCurrentWeather, [], {#cityName: cityName}),
             returnValue: _i5.Future<_i3.WeatherModel>.value(

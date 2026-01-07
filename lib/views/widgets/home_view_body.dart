@@ -5,8 +5,8 @@ import 'package:sunly/constants.dart';
 import 'package:sunly/core/models/weather_model.dart';
 import 'package:sunly/cubits/get_weather/get_weather_cubit.dart';
 import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
-import 'package:sunly/widgets/build_forrest_item.dart';
-import 'package:sunly/widgets/build_weather_info.dart';
+import 'details_section.dart';
+import 'forecast_section.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key, required this.weather});
@@ -83,52 +83,9 @@ class HomeViewBody extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyLarge,
                   ),
                   const SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buildWeatherInfo(
-                        context,
-                        'Max Temp',
-                        '${maxTemp.round()}$unit',
-                      ),
-                      buildWeatherInfo(
-                        context,
-                        'Min Temp',
-                        '${minTemp.round()}$unit',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      buildWeatherInfo(
-                        context,
-                        'Wind Speed',
-                        '${weather.windSpeed.round()} km/h',
-                      ),
-                      buildWeatherInfo(
-                        context,
-                        'Humidity',
-                        '${weather.humidity}%',
-                      ),
-                    ],
-                  ),
+                  DetailsSection(maxTemp: maxTemp, unit: unit, minTemp: minTemp, weather: weather),
                   const SizedBox(height: 32),
-                  Text(
-                    '5-Day Forecast',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(height: 16),
-                  ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: weather.dailyForecasts.length,
-                    itemBuilder: (context, index) {
-                      final forecast = weather.dailyForecasts[index];
-                      return buildForecastItem(context, forecast, isCelsius);
-                    },
-                  ),
+                  ForecastSection(weather: weather, isCelsius: isCelsius),
                 ],
               ),
             ),

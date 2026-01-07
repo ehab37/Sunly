@@ -64,7 +64,7 @@ void main() {
         ),
       );
 
-      final result = await weatherService.getCurrentWeather(cityName: 'London');
+      final result = await weatherService.getWeather(cityName: 'London');
 
       expect(result, isA<WeatherModel>());
     });
@@ -86,7 +86,7 @@ void main() {
       );
 
       expect(
-        () async => await weatherService.getCurrentWeather(cityName: 'London'),
+        () async => await weatherService.getWeather(cityName: 'London'),
         throwsA(isA<Exception>()),
       );
     });
@@ -98,7 +98,7 @@ void main() {
       when(mockDio.get(url)).thenThrow(Exception('Failed to connect'));
 
       expect(
-        () async => await weatherService.getCurrentWeather(cityName: 'London'),
+        () async => await weatherService.getWeather(cityName: 'London'),
         throwsA(isA<Exception>()),
       );
     });

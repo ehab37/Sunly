@@ -55,7 +55,7 @@ void main() {
     blocTest<GetWeatherCubit, GetWeatherState>(
       'emits [GetWeatherLoading, GetWeatherSuccess] when getCurrentWeather is called successfully',
       build: () {
-        when(mockWeatherService.getCurrentWeather(cityName: 'London'))
+        when(mockWeatherService.getWeather(cityName: 'London'))
             .thenAnswer((_) async => weatherModel);
         return getWeatherCubit;
       },
@@ -69,7 +69,7 @@ void main() {
     blocTest<GetWeatherCubit, GetWeatherState>(
       'emits [GetWeatherLoading, GetWeatherFailure] when getCurrentWeather throws an exception',
       build: () {
-        when(mockWeatherService.getCurrentWeather(cityName: 'London'))
+        when(mockWeatherService.getWeather(cityName: 'London'))
             .thenThrow(Exception('Failed to load weather'));
         return getWeatherCubit;
       },

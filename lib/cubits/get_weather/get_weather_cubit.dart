@@ -13,7 +13,7 @@ class GetWeatherCubit extends Cubit<GetWeatherState> {
   Future<void> getCurrentWeather({required String cityName}) async {
     emit(GetWeatherLoading());
     try {
-      final weather = await weatherService.getCurrentWeather(
+      final weather = await weatherService.getWeather(
         cityName: cityName,
       );
       final prefs = await SharedPreferences.getInstance();
