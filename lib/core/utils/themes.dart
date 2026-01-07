@@ -10,7 +10,10 @@ class AppThemes {
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.black),
       titleTextStyle: TextStyle(
-          color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: Colors.black),
@@ -27,7 +30,10 @@ class AppThemes {
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.white),
       titleTextStyle: TextStyle(
-          color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     textTheme: const TextTheme(
       bodyLarge: TextStyle(color: Colors.white),

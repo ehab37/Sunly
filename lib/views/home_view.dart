@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sunly/core/services/get_it.dart';
 import 'package:sunly/core/services/weather_service.dart';
 import 'package:sunly/cubits/get_weather/get_weather_cubit.dart';
+import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
 import 'package:sunly/cubits/theme/theme_cubit.dart';
 import 'package:sunly/views/widgets/home_view_body.dart';
 import 'search_view.dart';
@@ -19,6 +20,23 @@ class HomeView extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Sunly'),
           actions: [
+            BlocBuilder<TemperatureUnitCubit, TemperatureUnitState>(
+              builder: (context, state) {
+                return Row(
+                  children: [
+                    const Text('C'),
+                    Switch(
+                      value:
+                          state.temperatureUnit == TemperatureUnit.fahrenheit,
+                      onChanged: (value) {
+                        context.read<TemperatureUnitCubit>().toggleUnit();
+                      },
+                    ),
+                    const Text('F'),
+                  ],
+                );
+              },
+            ),
             BlocBuilder<ThemeCubit, ThemeState>(
               builder: (context, state) {
                 return IconButton(
@@ -33,6 +51,7 @@ class HomeView extends StatelessWidget {
                 );
               },
             ),
+            SizedBox(width: 12),
           ],
         ),
         body: SafeArea(

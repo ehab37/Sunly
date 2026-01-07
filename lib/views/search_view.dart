@@ -22,19 +22,17 @@ class SearchView extends StatelessWidget {
           BlocListener<GetWeatherCubit, GetWeatherState>(
             listener: (context, state) {
               if (state is GetWeatherFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.errorMessage),
-                  ),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
               }
             },
             child: TextField(
               onSubmitted: (value) {
                 if (value.isNotEmpty) {
                   context.read<GetWeatherCubit>().getCurrentWeather(
-                        cityName: value,
-                      );
+                    cityName: value,
+                  );
                 }
               },
               decoration: InputDecoration(

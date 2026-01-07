@@ -3,8 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_transitions/go_transitions.dart';
-import 'package:sunly/constants.dart';
+import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
 import 'package:sunly/cubits/theme/theme_cubit.dart';
+import 'constants.dart';
 import 'core/services/get_it.dart';
 import 'core/utils/app_router.dart';
 import 'core/utils/observer.dart';
@@ -24,8 +25,11 @@ void main() async {
   setupGetIt();
   Bloc.observer = MyBlocObserver();
   runApp(
-    BlocProvider(
-      create: (context) => ThemeCubit(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => TemperatureUnitCubit()),
+      ],
       child: const Sunly(),
     ),
   );
