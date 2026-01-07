@@ -1,0 +1,87 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:sunly/constants.dart';
+import 'package:sunly/core/utils/border_functions.dart';
+import 'package:sunly/core/utils/styles.dart';
+
+class CustomTextFormField extends StatelessWidget {
+  final TextEditingController controller;
+  final TextInputType? keyboard;
+  final String? Function(String?)? validator;
+  final String label;
+  final String? hint;
+  final IconData? prefixIcon;
+  final bool isSecure;
+  final void Function(String)? onSubmit;
+  final IconData? suffixIcon;
+  final void Function()? suffixPress;
+  final int? maxLines;
+  final TextCapitalization? textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+
+  const CustomTextFormField({
+    super.key,
+    required this.controller,
+    this.keyboard,
+    this.validator,
+    this.hint,
+    required this.label,
+    this.prefixIcon,
+    this.isSecure = false,
+    this.onSubmit,
+    this.suffixIcon,
+    this.suffixPress,
+    this.maxLines,
+    this.textCapitalization,
+    this.inputFormatters,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextFormField(
+        cursorHeight: 18,
+        inputFormatters: inputFormatters,
+        textCapitalization: textCapitalization ?? TextCapitalization.none,
+        onTapOutside: (event) => FocusScope.of(context).unfocus(),
+        validator: validator,
+        controller: controller,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          fillColor: Colors.white,
+          filled: true,
+          contentPadding: EdgeInsetsDirectional.symmetric(
+            vertical: 0,
+            horizontal: 12,
+          ),
+          hintText: hint,
+          labelText: label,
+          labelStyle: Styles.style15.copyWith(color: kPrimaryColor),
+          enabledBorder: customBorder(),
+          disabledBorder: customBorder(),
+          border: customBorder(),
+          focusedBorder: customBorder(),
+          prefixIconConstraints: BoxConstraints(minWidth: 40),
+          prefixIcon: prefixIcon != null
+              ? Padding(
+                  padding: EdgeInsets.only(right: 0, left: 8),
+                  child: Icon(prefixIcon, color: kPrimaryColor),
+                )
+              : null,
+          suffixIcon: suffixIcon != null
+              ? IconButton(
+                  icon: Icon(suffixIcon),
+                  onPressed: suffixPress,
+                  color: kPrimaryColor,
+                )
+              : null,
+        ),
+        keyboardType: keyboard,
+        onFieldSubmitted: onSubmit,
+        obscureText: isSecure,
+        maxLines: maxLines ?? 1,
+      ),
+    );
+  }
+}

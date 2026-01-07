@@ -6,6 +6,10 @@ class ApiKeys {
   static const String baseUrl = "http://api.weatherapi.com/v1";
 }
 
+const double kHorizontalPadding = 24;
+const double kTopPadding = 16;
+const double kBottomPadding = 30;
+const double kBorderRadius = 12;
 const Color kPrimaryColor = Color(0xff5cb6f9);
 const kTransitionDuration = Duration(milliseconds: 400);
 LinearGradient disco = const LinearGradient(

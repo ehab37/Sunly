@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:sunly/constants.dart';
@@ -14,7 +13,7 @@ class WeatherService {
       final response = await dio.get(
         "${ApiKeys.baseUrl}/forecast.json?key=${ApiKeys.apiKey}&q=$cityName&days=1",
       );
-      return WeatherModel.fromJson(jsonDecode(response.data));
+      return WeatherModel.fromJson(response.data);
     } on DioException catch (e) {
       String errorMessage =
           e.response?.data['error']['message'] ?? 'opps! something went wrong';
