@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiKeys {
   static final String apiKey = dotenv.env['WEATHER_API_KEY'] ?? 'No Key Found';
-  static const String baseUrl = "http://api.weatherapi.com/v1/";
+  static const String baseUrl = "http://api.weatherapi.com/v1";
 }
 
 const Color kPrimaryColor = Color(0xff5cb6f9);
