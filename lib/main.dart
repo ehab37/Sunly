@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_transitions/go_transitions.dart';
+import 'package:sunly/cubits/favorites/favorites_cubit.dart';
 import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
 import 'package:sunly/cubits/theme/theme_cubit.dart';
 import 'constants.dart';
@@ -36,6 +37,8 @@ void main() async {
         BlocProvider(
           create: (context) =>
               GetWeatherCubit(weatherService: getIt<WeatherService>()),
+        ),BlocProvider(
+          create: (context) => FavoritesCubit()..loadFavorites(),
         ),
       ],
       child: const Sunly(),

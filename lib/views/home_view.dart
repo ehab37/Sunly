@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sunly/constants.dart';
 import 'package:sunly/core/services/cache_helper.dart';
+import 'package:sunly/core/utils/app_router.dart';
 import 'package:sunly/core/utils/info_box.dart';
 import 'package:sunly/cubits/get_weather/get_weather_cubit.dart';
 import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
@@ -18,6 +20,26 @@ class HomeView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Sunly'),
         actions: [
+          IconButton(
+            onPressed: () {
+              GoRouter.of(context).push(AppRouter.kFavoritesView);
+            },
+            icon: const Icon(Icons.favorite),
+          ),
+          BlocBuilder<ThemeCubit, ThemeState>(
+            builder: (context, state) {
+              return IconButton(
+                onPressed: () {
+                  context.read<ThemeCubit>().toggleTheme();
+                },
+                icon: Icon(
+                  state.themeMode == ThemeMode.light
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                ),
+              );
+            },
+          ),
           BlocBuilder<TemperatureUnitCubit, TemperatureUnitState>(
             builder: (context, state) {
               return Row(
@@ -31,20 +53,6 @@ class HomeView extends StatelessWidget {
                   ),
                   const Text('F'),
                 ],
-              );
-            },
-          ),
-          BlocBuilder<ThemeCubit, ThemeState>(
-            builder: (context, state) {
-              return IconButton(
-                onPressed: () {
-                  context.read<ThemeCubit>().toggleTheme();
-                },
-                icon: Icon(
-                  state.themeMode == ThemeMode.light
-                      ? Icons.dark_mode
-                      : Icons.light_mode,
-                ),
               );
             },
           ),

@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
+import 'package:sunly/views/favorites_view.dart';
 import 'package:sunly/views/home_view.dart';
 import 'package:sunly/views/search_view.dart';
 import 'package:sunly/views/splash_view.dart';
@@ -7,6 +8,7 @@ import 'package:sunly/views/splash_view.dart';
 abstract class AppRouter {
   static const kHomeView = "/homeView";
   static const kSearchView = "/searchView";
+  static const kFavoritesView = "/favoritesView";
 
   static final router = GoRouter(
     observers: [GoTransition.observer],
@@ -16,6 +18,10 @@ abstract class AppRouter {
       GoRoute(
         path: kSearchView,
         builder: (context, state) => const SearchView(),
+      ),
+      GoRoute(
+        path: kFavoritesView,
+        builder: (context, state) => const FavoritesView(),
       ),
     ],
   );

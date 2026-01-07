@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:sunly/constants.dart';
 import 'package:sunly/core/models/weather_model.dart';
+import 'package:sunly/cubits/favorites/favorites_cubit.dart';
 import 'package:sunly/cubits/get_weather/get_weather_cubit.dart';
 import 'package:sunly/cubits/temperature_unit/temperature_unit_cubit.dart';
 import 'details_section.dart';
@@ -48,6 +49,35 @@ class HomeViewBody extends StatelessWidget {
                       Text(
                         weather.cityName,
                         style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                      BlocBuilder<GetWeatherCubit, GetWeatherState>(
+                        builder: (context, state) {
+                          if (state is GetWeatherSuccess) {
+                            return BlocBuilder<FavoritesCubit, FavoritesState>(
+                              builder: (context, favoritesState) {
+                                final isFavorite = favoritesState.favoriteCities
+                                    .contains(state.weather.cityName);
+                                return IconButton(
+                                  onPressed: () {
+                                    if (isFavorite) {
+                                      context
+                                          .read<FavoritesCubit>()
+                                          .removeFavorite(state.weather.cityName);
+                                    } else {
+                                      context
+                                          .read<FavoritesCubit>()
+                                          .addFavorite(state.weather.cityName);
+                                    }
+                                  },
+                                  icon: Icon(
+                                    isFavorite ? Icons.star : Icons.star_border,
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       ),
                     ],
                   ),
