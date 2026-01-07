@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:sunly/core/models/weather_model.dart';
 import 'package:sunly/core/utils/assets.dart';
 
@@ -10,6 +11,7 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String updatedAt = DateFormat("HH:mm").format(DateTime.parse(weather.date));
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -21,7 +23,7 @@ class HomeViewBody extends StatelessWidget {
               Text(weather.cityName, style: TextStyle(fontSize: 30)),
             ],
           ),
-          const Text('updated at 23:46', style: TextStyle(fontSize: 24)),
+          Text('updated at $updatedAt', style: TextStyle(fontSize: 24)),
           weather.conditionIconUrl == null
               ? Image.asset(
                   AssetsData.kLogo,
@@ -32,12 +34,12 @@ class HomeViewBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text(
-                'Mintemp: ${weather.minTempC}',
+                'MinTemp: ${weather.minTempC}',
                 style: TextStyle(fontSize: 16),
               ),
-              Text("${weather.tempC}°", style: TextStyle(fontSize: 64)),
+              Text("${weather.tempC}°", style: TextStyle(fontSize: 50)),
               Text(
-                'Maxtemp: ${weather.maxTempC}',
+                'MaxTemp: ${weather.maxTempC}',
                 style: TextStyle(fontSize: 16),
               ),
             ],
