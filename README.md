@@ -2,6 +2,9 @@
 
 Sunly is a simple and beautiful weather application built with Flutter. It allows you to get the current weather and a 5-day forecast for any city in the world.
 
+## 🎨 Mockup
+![image1](https://github.com/user-attachments/assets/c74f1fcf-0aab-4328-af27-3d53ac2e801f)
+
 ## Features
 
 *   **Current Weather:** Get the current temperature, condition, humidity, wind speed, and "feels like" temperature.
